@@ -1,0 +1,55 @@
+package Sort;
+
+import java.util.Arrays;
+
+public class HeapSort {
+    private static void heapSort(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            heapInsert(arr, i);
+        }
+        int size = arr.length;
+        swap(arr, 0, --size);
+        while (size > 0) {
+            heapify(arr, 0, size);
+            swap(arr, 0, --size);
+        }
+
+    }
+
+    private static void heapify(int[] arr, int index, int heapSize) {
+        int left = index * 2 + 1;
+        while (left < heapSize) {
+            int largest = left + 1 < heapSize && arr[left + 1] > arr[left] ? left + 1 : left;
+            largest = arr[index] > arr[largest] ? index : largest;
+            if (largest == index) {
+                break;
+            }
+            swap(arr, index, largest);
+            index = largest;
+            left = index * 2 + 1;
+        }
+    }
+
+    private static void heapInsert(int[] arr, int index) {
+        while (arr[index] > arr[(index - 1) / 2]) {
+            swap(arr, index, (index - 1) / 2);
+            index = (index - 1) / 2;
+        }
+    }
+
+    private static void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {2, 1, 8, 6, 0, 3, 7, 4};
+        heapSort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+}
